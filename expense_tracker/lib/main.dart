@@ -1,4 +1,15 @@
 import 'package:flutter/material.dart';
+import 'screens/home_screen.dart';
+import 'screens/budget_goal.dart';
+import 'screens/categories.dart';
+import 'screens/expense_entry.dart';
+import 'screens/expense_view.dart';
+import 'screens/profile.dart';
+import 'screens/visual_report.dart';
+
+
+
+// Import other screens here...
 
 void main() {
   runApp(MyApp());
@@ -8,71 +19,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Welcome, user'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+      title: 'Expense Tracker',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
-      body: Center(
-        // This would be your page content
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.grey[200],
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            InkWell(
-              onTap: () {
-                // Handle your button tap here
-              },
-              child: Image.asset(
-                'assets/homeIcon.png',
-                width: 65, // Set your desired width
-                height: 75, // Set your desired height
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                // Handle your button tap here
-              },
-              child: Image.asset(
-                'assets/goalIcon.png',
-                width: 65,
-                height: 75,
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                // Handle your button tap here
-              },
-              child: Image.asset(
-                'assets/reportIcon.png',
-                width: 65,
-                height: 75,
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                // Handle your button tap here
-              },
-              child: Image.asset(
-                'assets/profileIcon.png',
-                width: 65,
-                height: 75,
-              ),
-            ),
-          ],
-        ),
-      ),
+      home: HomeScreen(),
+      routes: {
+        '/home': (context) => HomeScreen(),
+        '/budget_goal': (context) => BudgetGoal(),
+        '/categories': (context) => Categories(),
+        '/expense_entry': (context) => ExpenseEntry(),
+        '/expense_view': (context) => ExpenseView(),
+        '/profile': (context) => Profile(),
+        '/visual_report': (context) => VisualReport(),
+      },
     );
   }
 }
