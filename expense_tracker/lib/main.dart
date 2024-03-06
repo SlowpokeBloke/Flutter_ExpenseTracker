@@ -1,15 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
-import 'screens/budget_goal.dart';
-import 'screens/categories.dart';
-import 'screens/expense_entry.dart';
-import 'screens/expense_view.dart';
-import 'screens/profile.dart';
-import 'screens/visual_report.dart';
-
-
-
-// Import other screens here...
+import './screens/index.dart';
 
 void main() {
   runApp(MyApp());
@@ -41,6 +31,7 @@ class MyApp extends StatelessWidget {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
+            leading: IconButton(onPressed:() => {}, icon: const Icon(Icons.person),),  //onpressed: navigates to profile page
             bottom: const TabBar(
               tabs: [
                 Tab(icon: Icon(Icons.home)),
@@ -51,6 +42,9 @@ class MyApp extends StatelessWidget {
           ),
           body: const TabBarView(
             children: [
+              HomeScreen(),
+              Goals(),
+              Reports(),
               //link to Home, Budget, Charts
             ]
           ),
