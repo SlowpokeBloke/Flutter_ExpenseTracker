@@ -32,7 +32,9 @@ class MyApp extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             leading: IconButton(onPressed:() => {}, icon: const Icon(Icons.person),),  //onpressed: navigates to profile page
-            bottom: const TabBar(
+            title: const Text('Expense Tracker'),
+            centerTitle: true,
+            bottom: const TabBar( //consider swapping to bottom edge of screen
               tabs: [
                 Tab(icon: Icon(Icons.home)),
                 Tab(icon: Icon(Icons.assignment_outlined)),
@@ -42,10 +44,10 @@ class MyApp extends StatelessWidget {
           ),
           body: const TabBarView(
             children: [
+              //link to Home, Budget, Charts
               HomeScreen(),
               Goals(),
               Reports(),
-              //link to Home, Budget, Charts
             ]
           ),
         ),

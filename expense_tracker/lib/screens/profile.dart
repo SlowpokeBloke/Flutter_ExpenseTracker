@@ -71,7 +71,6 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         centerTitle: true,
-        elevation: 2,
       ),
       body: Center(
         child: Column(
