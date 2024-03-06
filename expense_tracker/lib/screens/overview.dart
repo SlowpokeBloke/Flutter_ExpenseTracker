@@ -16,25 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: AppBar(
-            bottom: const TabBar(
-              tabs: [
-                Tab(icon: Icon(Icons.home)),
-                Tab(icon: Icon(Icons.assignment_outlined)),
-                Tab(icon: Icon(Icons.insert_chart_outlined)),
-              ],
-            ),
-          ),
-          body: const TabBarView(
-            children: [
-              //link to Home, Budget, Charts
-            ]
-          ),
-        ),
-      ),
+      home: const MyHomePage(title: 'Home'),
     );
   }
 }
