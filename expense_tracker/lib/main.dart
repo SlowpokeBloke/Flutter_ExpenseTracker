@@ -44,9 +44,6 @@ class MyApp extends StatelessWidget {
           ),
           body: const TabBarView(
             children: [
-              HomeScreen(),
-              Goals(),
-              Reports(),
               //link to Home, Budget, Charts
               HomeScreen(),
               Goals(),
