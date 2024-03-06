@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-class Profile extends StatelessWidget {
-  const Profile({super.key});
-
+class Reports extends StatelessWidget {
+  const Reports({super.key});
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Profile'),
+        title: const Text('Reports'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         centerTitle: true,
         elevation: 2,
       ),
-      body: const Text('test4'),
+      body: const Text('test3'),
     );
   }
 }
