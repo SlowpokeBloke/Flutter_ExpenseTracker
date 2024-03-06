@@ -11,9 +11,22 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         centerTitle: true,
-        elevation: 2,
       ),
-      body: const Text('test1'),
+      //need box with centered balance + income on left bottom, expense on right bottom
+      //expense preview list below as appbar, new expense in actions, list in flex space
+      body: const Column( 
+        children: [
+          ColoredBox(
+            color: Colors.grey,
+            child: Row(
+              children: [
+                Text('Total Income'),
+                Text('Total Expenses'),
+              ]
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

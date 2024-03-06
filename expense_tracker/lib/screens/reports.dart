@@ -11,7 +11,6 @@ class Reports extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         centerTitle: true,
-        elevation: 2,
       ),
       body: const Text('test3'),
     );
