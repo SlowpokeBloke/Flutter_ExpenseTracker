@@ -7,13 +7,13 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Overview'),
+        title: const Text('Your Profile'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         centerTitle: true,
         elevation: 2,
       ),
-      body: const Text('test1'),
+      body: const Text('test4'),
     );
   }
 }

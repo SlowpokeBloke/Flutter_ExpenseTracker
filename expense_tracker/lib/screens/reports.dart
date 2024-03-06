@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
+class Reports extends StatelessWidget {
+  const Reports({super.key});
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Overview'),
+        title: const Text('Reports'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         centerTitle: true,
         elevation: 2,
       ),
-      body: const Text('test1'),
+      body: const Text('test3'),
     );
   }
 }
