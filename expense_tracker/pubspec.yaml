@@ -58,6 +58,9 @@ flutter:
     - assets/goalIcon.png
     - assets/reportIcon.png
     - assets/profileIcon.png
+    - assets/category.png
+    - assets/receipt.png
+    - assets/+.png
 
 
   # The following line ensures that the Material Icons font is

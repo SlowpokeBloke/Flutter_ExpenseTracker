@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => Profile(),
         '/visual_report': (context) => VisualReport(),
       },
+      
     );
   }
 }

@@ -5,7 +5,8 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'), // Adjusted title to 'Home'
+        automaticallyImplyLeading: false, 
+        title: const Text('Profile'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         centerTitle: true,
@@ -15,37 +16,55 @@ class Profile extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         // Your body content here
       ),
+      
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[200],
         shape: CircularNotchedRectangle(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 0.50),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.home),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/home');
+              
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/home'); 
                 },
+                child: Container(
+                  width: 60, 
+                  height: 60, 
+                  child: Image.asset('assets/homeIcon.png'), 
+                ),
               ),
-              IconButton(
-                icon: Icon(Icons.trending_up),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/budget_goal');
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/budget_goal'); 
                 },
+                child: Container(
+                  width: 60, 
+                  height: 60, 
+                  child: Image.asset('assets/goalIcon.png'), 
+                ),
               ),
-              IconButton(
-                icon: Icon(Icons.bar_chart),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/visual_report');
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/visual_report'); 
                 },
+                child: Container(
+                  width: 60, 
+                  height: 60, 
+                  child: Image.asset('assets/reportIcon.png'), 
+                ),
               ),
-              IconButton(
-                icon: Icon(Icons.person),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/profile');
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/profile'); 
                 },
+                child: Container(
+                  width: 60, 
+                  height: 60, 
+                  child: Image.asset('assets/profileIcon.png'), 
+                ),
               ),
             ],
           ),

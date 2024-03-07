@@ -5,52 +5,122 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'), // Adjusted title to 'Home'
+        automaticallyImplyLeading: false,
+        title: const Text('Home'), 
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         centerTitle: true,
         elevation: 2,
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        // Your body content here
+        child: Center( // Center the card in the middle of the screen
+          child: Card(
+            elevation: 4.0,
+            color: Colors.grey[200], // Adjust the color to match your design
+            child: Padding(
+              padding: const EdgeInsets.all(10.0), // Adjust padding to fit your content within the card
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // Take the minimum space necessary
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+                    children: <Widget>[
+                      IconButton(
+                        icon: Container(
+                          width: 80, 
+                          height: 80, 
+                          child: Image.asset('assets/category.png'), 
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/categories'); 
+                        },
+                      ), 
+
+                      IconButton(
+                        icon: Container(
+                          width: 80, 
+                          height: 80, 
+                          child: Image.asset('assets/receipt.png'), 
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/expense_view'); 
+                        },
+                      ), 
+
+
+                    ],
+                  ),
+                  IconButton(
+                    icon: Container(
+                      width: 80, 
+                      height: 80, 
+                      child: Image.asset('assets/+.png'), 
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/expense_entry'); 
+                    },
+                  ), 
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
+
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[200],
         shape: CircularNotchedRectangle(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 0.50),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.home),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/home');
-                },
+              // Use GestureDetector to handle taps and increase icon size
+              GestureDetector(
+                child: Container(
+                  width: 60, 
+                  height: 60, 
+                  child: Image.asset('assets/homeIcon.png'), 
+                ),
               ),
-              IconButton(
-                icon: Icon(Icons.trending_up),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/budget_goal');
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/budget_goal'); 
                 },
+                child: Container(
+                  width: 60, 
+                  height: 60, 
+                  child: Image.asset('assets/goalIcon.png'), 
+                ),
               ),
-              IconButton(
-                icon: Icon(Icons.bar_chart),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/visual_report');
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/visual_report'); 
                 },
+                child: Container(
+                  width: 60, 
+                  height: 60, 
+                  child: Image.asset('assets/reportIcon.png'), 
+                ),
               ),
-              IconButton(
-                icon: Icon(Icons.person),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/profile');
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/profile'); 
                 },
+                child: Container(
+                  width: 60, 
+                  height: 60, 
+                  child: Image.asset('assets/profileIcon.png'), 
+                ),
               ),
             ],
           ),
         ),
       ),
+
+
     );
   }
 }
