@@ -1,75 +1,103 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
-class Categories extends StatelessWidget {
+class Categories extends StatefulWidget {
+  @override
+  _CategoriesState createState() => _CategoriesState();
+}
+
+class _CategoriesState extends State<Categories> {
+  final TextEditingController _controller = TextEditingController();
+  List<String> _categories = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCategories();
+  }
+
+  Future<void> _loadCategories() async {
+    final file = await _localFile;
+    if (await file.exists()) {
+      String contents = await file.readAsString();
+      List<dynamic> jsonCategories = jsonDecode(contents);
+      setState(() {
+        _categories = jsonCategories.cast<String>();
+      });
+    }
+  }
+
+  Future<File> _saveCategories() async {
+    final file = await _localFile;
+    return file.writeAsString(jsonEncode(_categories));
+  }
+
+  Future<File> get _localFile async {
+    final directory = await getApplicationDocumentsDirectory();
+    return File('${directory.path}/categories.json');
+  }
+
+  void _addCategory() {
+    if (_controller.text.isNotEmpty) {
+      setState(() {
+        _categories.add(_controller.text.trim());
+        _controller.clear();
+        _saveCategories();
+      });
+    }
+  }
+
+  void _deleteCategory(int index) {
+    setState(() {
+      _categories.removeAt(index);
+      _saveCategories();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Categories'), 
+        title: Text('Categories'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         centerTitle: true,
         elevation: 2,
       ),
       
-      body: const Padding(
+      body: Padding(
         padding: EdgeInsets.all(16.0),
-        // Your body content here
+        child: Column(
+          children: [
+            TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                labelText: 'Add New Category',
+                suffixIcon: IconButton(
+                  onPressed: _addCategory,
+                  icon: Icon(Icons.add),
+                ),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _categories.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(_categories[index]),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete, color: Colors.black),
+                      onPressed: () => _deleteCategory(index),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
-      
-      // bottomNavigationBar: BottomAppBar(
-      //   color: Colors.grey[200],
-      //   shape: CircularNotchedRectangle(),
-      //   child: Padding(
-      //     padding: const EdgeInsets.symmetric(vertical: 0.50),
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      //       children: <Widget>[
-      //         // Use GestureDetector to handle taps and increase icon size
-      //         GestureDetector(
-      //           onTap: () {
-      //             Navigator.pushNamed(context, '/home'); 
-      //           },
-      //           child: Container(
-      //             width: 60, 
-      //             height: 60, 
-      //             child: Image.asset('assets/homeIcon.png'), 
-      //           ),
-      //         ),
-      //         GestureDetector(
-      //           onTap: () {
-      //             Navigator.pushNamed(context, '/budget_goal'); 
-      //           },
-      //           child: Container(
-      //             width: 60, 
-      //             height: 60, 
-      //             child: Image.asset('assets/goalIcon.png'), 
-      //           ),
-      //         ),
-      //         GestureDetector(
-      //           onTap: () {
-      //             Navigator.pushNamed(context, '/visual_report'); 
-      //           },
-      //           child: Container(
-      //             width: 60, 
-      //             height: 60, 
-      //             child: Image.asset('assets/reportIcon.png'), 
-      //           ),
-      //         ),
-      //         GestureDetector(
-      //           onTap: () {
-      //             Navigator.pushNamed(context, '/profile'); 
-      //           },
-      //           child: Container(
-      //             width: 60, 
-      //             height: 60, 
-      //             child: Image.asset('assets/profileIcon.png'), 
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

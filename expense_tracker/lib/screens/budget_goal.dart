@@ -1,6 +1,41 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
-class BudgetGoal extends StatelessWidget {
+
+class BudgetGoal extends StatefulWidget {
+  @override
+  _BudgetGoalState createState() => _BudgetGoalState();
+}
+
+class _BudgetGoalState extends State<BudgetGoal> {
+  List<String> _categories = [];
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadCategories();
+  }
+  
+  // Load categories from forms in categories.dart
+  Future<void> _loadCategories() async {
+    final file = await _localFile;
+    if (await file.exists()) {
+      String contents = await file.readAsString();
+      List<dynamic> jsonCategories = jsonDecode(contents);
+      setState(() {
+        _categories = jsonCategories.cast<String>();
+      });
+    }
+  }
+
+  // Get local file path for storing categories
+  Future<File> get _localFile async {
+    final directory = await getApplicationDocumentsDirectory();
+    return File('${directory.path}/categories.json');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,13 +46,29 @@ class BudgetGoal extends StatelessWidget {
         foregroundColor: Colors.black,
         centerTitle: true,
         elevation: 2,
-
       ),
 
-      body: const Padding(
+      
+      body: Padding(
         padding: EdgeInsets.all(16.0),
-        // Your body content here
+        child: _categories.isEmpty
+            ? Center(child: Text("No categories found. Please add categories first."))
+            : ListView.builder(
+                itemCount: _categories.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(_categories[index]),
+                    // Assuming you want to do something when a category is tapped
+                    onTap: () {
+                      // You can navigate to another screen to set goals for this category or open a dialog to input goals.
+                      // For example:
+                      // Navigator.of(context).push(MaterialPageRoute(builder: (_) => SetGoalScreen(category: _categories[index])));
+                    },
+                  );
+                },
+              ),
       ),
+
 
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[200],
