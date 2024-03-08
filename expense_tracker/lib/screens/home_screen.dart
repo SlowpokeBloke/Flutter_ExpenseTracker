@@ -6,67 +6,103 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Home'), 
+        title: const Text('Home'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         centerTitle: true,
         elevation: 2,
       ),
-
-      body: Padding(
+      body: ListView( 
         padding: const EdgeInsets.all(16.0),
-        child: Center( // Center the card in the middle of the screen
-          child: Card(
+        children: [
+          
+          Card( // Place holder card will be heavly adjust or completely replace
             elevation: 4.0,
-            color: Colors.grey[200], // Adjust the color to match your design
-            child: Padding(
-              padding: const EdgeInsets.all(10.0), // Adjust padding to fit your content within the card
+            color: Colors.grey[200],
+            child: const Padding(
+              padding: EdgeInsets.all(16.0), // Adjust padding for balance card
               child: Column(
-                mainAxisSize: MainAxisSize.min, // Take the minimum space necessary
+                mainAxisSize: MainAxisSize.min,
                 children: [
+                  Text(
+                    'Monthly Balance',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '\$ 1100',
+                    style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                  ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween, 
-                    children: <Widget>[
-                      IconButton(
-                        icon: Container(
-                          width: 80, 
-                          height: 80, 
-                          child: Image.asset('assets/category.png'), 
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/categories'); 
-                        },
-                      ), 
-
-                      IconButton(
-                        icon: Container(
-                          width: 80, 
-                          height: 80, 
-                          child: Image.asset('assets/receipt.png'), 
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/expense_view'); 
-                        },
-                      ), 
-
-
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('+ 3000.00', style: TextStyle(color: Colors.green)),
+                      Text('- 1900', style: TextStyle(color: Colors.red)),
                     ],
                   ),
-                  IconButton(
-                    icon: Container(
-                      width: 80, 
-                      height: 80, 
-                      child: Image.asset('assets/+.png'), 
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/expense_entry'); 
-                    },
-                  ), 
                 ],
               ),
             ),
           ),
-        ),
+
+
+          SizedBox(height: 40), 
+          
+          
+          Card( // Mid nav buttons
+            elevation: 4.0,
+            color: Colors.grey[200],
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      IconButton(
+                        icon: Container(
+                          width: 80,
+                          height: 80,
+                          child: Image.asset('assets/category.png'),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/categories');
+                        },
+                      ),
+                      IconButton(
+                        icon: Container(
+                          width: 80,
+                          height: 80,
+                          child: Image.asset('assets/receipt.png'),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/expense_view');
+                        },
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    icon: Container(
+                      width: 80,
+                      height: 80,
+                      child: Image.asset('assets/+.png'),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/expense_entry');
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+         
+
+
+
+
+
+
+        ],
       ),
 
       bottomNavigationBar: BottomAppBar(
@@ -77,7 +113,6 @@ class HomeScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              // Use GestureDetector to handle taps and increase icon size
               GestureDetector(
                 child: Container(
                   width: 60, 
@@ -119,8 +154,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-
-
     );
   }
 }

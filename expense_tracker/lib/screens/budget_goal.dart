@@ -58,11 +58,9 @@ class _BudgetGoalState extends State<BudgetGoal> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Text(_categories[index]),
-                    // Assuming you want to do something when a category is tapped
+                   
                     onTap: () {
-                      // You can navigate to another screen to set goals for this category or open a dialog to input goals.
-                      // For example:
-                      // Navigator.of(context).push(MaterialPageRoute(builder: (_) => SetGoalScreen(category: _categories[index])));
+
                     },
                   );
                 },

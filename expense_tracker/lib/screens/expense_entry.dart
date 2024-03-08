@@ -14,7 +14,7 @@ class ExpenseEntry extends StatelessWidget {
       
       body: const Padding(
         padding: EdgeInsets.all(16.0),
-        // Your body content here
+        //  body content here
       ),
 
     );
