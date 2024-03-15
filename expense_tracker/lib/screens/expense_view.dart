@@ -5,16 +5,15 @@ class ExpenseView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Expense View'), 
+        title: const Text('Expense View'), 
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         centerTitle: true,
-        elevation: 2,
       ),
       
       body: const Padding(
         padding: EdgeInsets.all(16.0),
-        //  body content here
+        //display list of expenses (as cards?)
       ),
       
   
