@@ -1,18 +1,74 @@
 import 'package:flutter/material.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
+  @override
+  _ProfileState createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  String _userName = "User Name"; 
+
+  void _changeUserName() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+
+        String newName = "";
+        return AlertDialog(
+          title: Text("Change Name"),
+          content: TextField(
+            onChanged: (value) {
+              newName = value;
+            },
+            decoration: InputDecoration(hintText: "Enter new name"),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text("Save"),
+              onPressed: () {
+                setState(() {
+                  _userName = newName;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false, 
+        automaticallyImplyLeading: false,
         title: const Text('Profile'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         centerTitle: true,
         elevation: 2,
       ),
-
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.person, size: 100), // Large icon
+            SizedBox(height: 20),
+            Text(_userName, style: TextStyle(fontSize: 24)), // Display the user's name
+            TextButton(
+              onPressed: _changeUserName,
+              child: Text("Change Name", style: TextStyle(color: Colors.blue)),
+            ),
+          ],
+        ),
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[200],
         shape: CircularNotchedRectangle(),
