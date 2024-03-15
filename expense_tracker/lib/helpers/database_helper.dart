@@ -37,6 +37,18 @@ class DatabaseHelper {
     return await db.insert(categoriesTable, categoryMap);
   }
 
+  // Inside database_helper.dart
+  Future<int> deleteCategory(int id) async {
+    Database db = await this.database;
+    int result = await db.delete(
+      categoriesTable,
+      where: '$colId = ?',
+      whereArgs: [id],
+    );
+    return result;
+  }
+
+
   Future<List<Map<String, dynamic>>> getCategoryMapList() async {
     Database db = await this.database;
     return await db.query(categoriesTable);
