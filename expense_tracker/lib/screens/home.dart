@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './expense_log.dart';
+import './expense_view.dart';
 import './forms/expense_entry.dart';
 
 class HomeScreen extends StatelessWidget {
