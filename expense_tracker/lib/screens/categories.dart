@@ -27,19 +27,21 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     setState(() {});
   }
 
-  Future<void> _addCategory(String categoryName) async {
-    if (categoryName.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Category name cannot be empty')));
-      return;
-    }
-    try {
-      await DatabaseHelper().insertCategory({'name': categoryName.trim(), 'budget': 0}); // Assuming initial budget is 0
-      _categoryNameController.clear();
-      _loadCategories();
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error adding category: $e')));
-    }
+Future<void> _addCategory(String categoryName) async {
+  if (categoryName.trim().isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Category name cannot be empty')));
+    return;
   }
+  final int initialBudget = 0; // Define the initial budget here
+  try {
+    await DatabaseHelper().insertCategory(categoryName.trim(), initialBudget);
+    _categoryNameController.clear();
+    _loadCategories();
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error adding category: $e')));
+  }
+}
+
 
   Future<void> _updateBudget(int categoryId, String budget) async {
     if (budget.trim().isEmpty) return; // Optionally handle empty string
