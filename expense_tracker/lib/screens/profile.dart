@@ -71,6 +71,7 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         centerTitle: true,
+        //actions: [IconButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ()))}, tooltip: 'Add New Entry', icon: const Icon(Icons.add_box_rounded))],
       ),
       body: Center(
         child: Column(

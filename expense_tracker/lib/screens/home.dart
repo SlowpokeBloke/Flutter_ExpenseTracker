@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './expense_log.dart';
+import './expense_view.dart';
 import './forms/expense_entry.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
           AppBar(
             //title: const Text('Expense Log'),
             actions: [IconButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) =>   ExpenseForm()))}, tooltip: 'Add New Entry', icon: const Icon(Icons.add_box_rounded))],
-            flexibleSpace: ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseView()))}, child: const Text('View Full Log')), //display expense log list preview (limit to 3?); expand on tap (to expense log page?)
+            flexibleSpace: ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MyExpensesWidget()))}, child: const Text('View Full Log')), //display expense log list preview (limit to 3?); expand on tap (to expense log page?)
           ),
         ],
       ),
