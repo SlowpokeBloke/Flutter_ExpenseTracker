@@ -12,11 +12,7 @@ class Profile extends StatelessWidget {
         centerTitle: true,
         elevation: 2,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        // Your body content here
-      ),
-      
+
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[200],
         shape: CircularNotchedRectangle(),

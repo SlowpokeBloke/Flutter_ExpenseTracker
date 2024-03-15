@@ -12,11 +12,7 @@ class ExpenseView extends StatelessWidget {
         elevation: 2,
       ),
       
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
-        //  body content here
-      ),
-      
+
   
     );
   }
