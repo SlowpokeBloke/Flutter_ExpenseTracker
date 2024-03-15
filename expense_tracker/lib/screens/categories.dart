@@ -1,16 +1,15 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
-class Categories extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:expense_tracker/helpers/database_helper.dart';
+
+class CategoriesScreen extends StatefulWidget {
   @override
-  _CategoriesState createState() => _CategoriesState();
+  _CategoriesScreenState createState() => _CategoriesScreenState();
 }
 
-class _CategoriesState extends State<Categories> {
+class _CategoriesScreenState extends State<CategoriesScreen> {
   final TextEditingController _controller = TextEditingController();
-  List<String> _categories = [];
+  List<Map<String, dynamic>> _categories = [];
 
   @override
   void initState() {
@@ -19,41 +18,14 @@ class _CategoriesState extends State<Categories> {
   }
 
   Future<void> _loadCategories() async {
-    final file = await _localFile;
-    if (await file.exists()) {
-      String contents = await file.readAsString();
-      List<dynamic> jsonCategories = jsonDecode(contents);
-      setState(() {
-        _categories = jsonCategories.cast<String>();
-      });
-    }
+    _categories = await DatabaseHelper().getCategoryMapList();
+    setState(() {});
   }
 
-  Future<File> _saveCategories() async {
-    final file = await _localFile;
-    return file.writeAsString(jsonEncode(_categories));
-  }
-
-  Future<File> get _localFile async {
-    final directory = await getApplicationDocumentsDirectory();
-    return File('${directory.path}/categories.json');
-  }
-
-  void _addCategory() {
-    if (_controller.text.isNotEmpty) {
-      setState(() {
-        _categories.add(_controller.text.trim());
-        _controller.clear();
-        _saveCategories();
-      });
-    }
-  }
-
-  void _deleteCategory(int index) {
-    setState(() {
-      _categories.removeAt(index);
-      _saveCategories();
-    });
+  Future<void> _addCategory(String categoryName) async {
+    await DatabaseHelper().insertCategory({'name': categoryName});
+    _controller.clear();
+    _loadCategories();
   }
 
   @override
@@ -61,42 +33,30 @@ class _CategoriesState extends State<Categories> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Categories'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        centerTitle: true,
-        elevation: 2,
       ),
-      
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                labelText: 'Add New Category',
-                suffixIcon: IconButton(
-                  onPressed: _addCategory,
-                  icon: Icon(Icons.add),
-                ),
+      body: Column(
+        children: [
+          TextField(
+            controller: _controller,
+            decoration: InputDecoration(
+              labelText: 'New Category Name',
+              suffixIcon: IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () => _addCategory(_controller.text),
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _categories.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(_categories[index]),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete, color: Colors.black),
-                      onPressed: () => _deleteCategory(index),
-                    ),
-                  );
-                },
-              ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _categories.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(_categories[index]['name']),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomeScreen(),
         '/budget_goal': (context) => BudgetGoal(),
-        '/categories': (context) => Categories(),
+        '/categories': (context) => CategoriesScreen(),
         '/expense_entry': (context) => ExpenseEntry(),
         '/expense_view': (context) => ExpenseView(),
         '/profile': (context) => Profile(),
