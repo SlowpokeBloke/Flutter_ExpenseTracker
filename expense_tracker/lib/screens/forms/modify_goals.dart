@@ -2,6 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+class ExpenseForm extends StatelessWidget {
+  const ExpenseForm({super.key});
+  @override
+    Widget build(BuildContext context) {
+      const appTitle = 'Add New Expense';
+      return Scaffold(
+          appBar: AppBar(
+            title: const Text(appTitle),
+          ),
+          body: const NewExpense(),
+        );
+    }
+}
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
   @override
@@ -25,7 +38,7 @@ class NewExpenseState extends State<NewExpense> {
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             FormBuilderTextField(
               //key: field specific key
               name: 'name',
