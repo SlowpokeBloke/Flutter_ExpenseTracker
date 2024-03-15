@@ -13,7 +13,7 @@ class ExpenseView extends StatelessWidget {
       
       body: const Padding(
         padding: EdgeInsets.all(16.0),
-        //  body content here
+        //display list of expenses (as cards?)
       ),
       
   
