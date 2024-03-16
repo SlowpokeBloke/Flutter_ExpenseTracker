@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
-class ExpenseForm extends StatelessWidget {
-  const ExpenseForm({super.key});
+class CategoryForm extends StatelessWidget {
+  const CategoryForm({super.key});
   @override
     Widget build(BuildContext context) {
       const appTitle = 'Add New Expense';
@@ -11,25 +11,25 @@ class ExpenseForm extends StatelessWidget {
           appBar: AppBar(
             title: const Text(appTitle),
           ),
-          body: const NewExpense(),
+          body: const NewCategory(),
         );
     }
 }
-class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+class NewCategory extends StatefulWidget {
+  const NewCategory({super.key});
   @override
-    NewExpenseState createState() {
-      return NewExpenseState();
+    NewCategoryState createState() {
+      return NewCategoryState();
     }
 }
 // Create a corresponding State class.
 // This class holds data related to the form.
-class NewExpenseState extends State<NewExpense> {
+class NewCategoryState extends State<NewCategory> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
   // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<NewExpenseState>.
+  // not a GlobalKey<NewCategoryState>.
   final _formKey = GlobalKey<FormBuilderState>();
   @override
     Widget build(BuildContext context) {
@@ -46,23 +46,10 @@ class NewExpenseState extends State<NewExpense> {
               validator: FormBuilderValidators.compose([FormBuilderValidators.required()]),
             ),
             FormBuilderTextField(
-              //key: field spec key
-              name: 'email',
-              decoration: const InputDecoration(labelText: 'Email'),
-              validator: FormBuilderValidators.compose([FormBuilderValidators.required(), FormBuilderValidators.email()]),
+              name: 'budget',
+              decoration: const InputDecoration(labelText: 'Budget'),
+              validator: FormBuilderValidators.compose([FormBuilderValidators.required(), FormBuilderValidators.numeric()]),
             ),
-            FormBuilderTextField(
-              name: 'contactNum',
-              decoration: const InputDecoration(labelText: 'Contact No.'),
-              validator: FormBuilderValidators.compose([FormBuilderValidators.required(), FormBuilderValidators.numeric(), FormBuilderValidators.match('^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}\$')]),
-              ),
-            FormBuilderDateTimePicker(
-              name: 'dob',
-              inputType: InputType.date,
-              decoration: const InputDecoration(labelText: 'Date Of Birth'),
-              initialDate: DateTime(1990),
-              validator: FormBuilderValidators.compose([FormBuilderValidators.required()]),
-              ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: ElevatedButton(

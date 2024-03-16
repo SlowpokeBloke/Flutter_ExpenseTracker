@@ -39,30 +39,28 @@ class NewExpenseState extends State<NewExpense> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            FormBuilderTextField(
-              //key: field specific key
-              name: 'name',
-              decoration: const InputDecoration(labelText: 'Name'),
-              validator: FormBuilderValidators.compose([FormBuilderValidators.required()]),
+            FormBuilderDropdown(
+              name: 'category',
+              decoration: const InputDecoration(labelText: 'Category'),
+              items: [], //List<DropdownMenuItem<TXT(fetch categories)>[]
             ),
             FormBuilderTextField(
-              //key: field spec key
-              name: 'email',
-              decoration: const InputDecoration(labelText: 'Email'),
-              validator: FormBuilderValidators.compose([FormBuilderValidators.required(), FormBuilderValidators.email()]),
+              name: 'expense amount',
+              decoration: const InputDecoration(labelText: 'Amount'),
+              validator: FormBuilderValidators.compose([FormBuilderValidators.required(), FormBuilderValidators.numeric(),]),
             ),
             FormBuilderTextField(
-              name: 'contactNum',
-              decoration: const InputDecoration(labelText: 'Contact No.'),
-              validator: FormBuilderValidators.compose([FormBuilderValidators.required(), FormBuilderValidators.numeric(), FormBuilderValidators.match('^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}\$')]),
-              ),
-            FormBuilderDateTimePicker(
-              name: 'dob',
-              inputType: InputType.date,
-              decoration: const InputDecoration(labelText: 'Date Of Birth'),
-              initialDate: DateTime(1990),
-              validator: FormBuilderValidators.compose([FormBuilderValidators.required()]),
-              ),
+              name: 'expense description',
+              decoration: const InputDecoration(labelText: 'Expense Details'),
+              validator: FormBuilderValidators.compose([FormBuilderValidators.required(),]),
+            ),
+            // FormBuilderDateTimePicker(
+            //   name: 'dob',
+            //   inputType: InputType.date,
+            //   decoration: const InputDecoration(labelText: 'Date Of Birth'),
+            //   initialDate: DateTime(1990),
+            //   validator: FormBuilderValidators.compose([FormBuilderValidators.required()]),
+            //   ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: ElevatedButton(

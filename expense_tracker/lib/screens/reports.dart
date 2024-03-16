@@ -22,7 +22,7 @@ class Reports extends StatelessWidget {
               'Cat3' : 32.15,
             }),
           ),
-          
+          //list of prog bars for each cat in goals?
         ],
       ),
     );
