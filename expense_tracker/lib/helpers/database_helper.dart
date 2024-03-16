@@ -55,14 +55,14 @@ class DatabaseHelper {
         $colCategoryId INTEGER,
         $colDescription TEXT,
         $colDate TEXT,
-        FOREIGN KEY ($colCategoryId) REFERENCES $categoriesTable($colId))
+        FOREIGN KEY ($colCategoryId) REFERENCES $categoriesTable($colId) ON DELETE CASCADE)
     ''');
   }
 
   // Handle database upgrades
   void _upgradeDb(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
-      // Assuming version 2 requires adding the expenses table
+
       await db.execute('''
         CREATE TABLE $expensesTable (
           $colId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -85,11 +85,16 @@ class DatabaseHelper {
     return await db.insert(categoriesTable, category);
   }
 
+//delete function for category 
   Future<int> deleteCategory(int id) async {
     Database db = await database;
     return await db.delete(categoriesTable, where: '$colId = ?', whereArgs: [id]);
   }
-
+//delete function for expense
+  Future<int> deleteExpense(int id) async {
+    Database db = await this.database;
+    return await db.delete(expensesTable, where: '$colId = ?', whereArgs: [id]);
+  }
 
   Future<int> insertExpense(Map<String, dynamic> expenseMap) async {
     Database db = await this.database;
@@ -120,28 +125,19 @@ class DatabaseHelper {
     return await db.query(categoriesTable);
   }
 
-// Method to fetch expenses joined with categories
+  // Method to fetch expenses joined with categories
 Future<List<Map<String, dynamic>>> getExpenses() async {
   final db = await this.database;
-  // Debug: Fetch all categories to log their IDs
-  final categories = await db.query(categoriesTable);
-  print("All categories: $categories");
-
   final List<Map<String, dynamic>> result = await db.rawQuery('''
-    SELECT e.amount, e.date, c.name AS categoryName
+    SELECT e.id, e.amount, e.date, c.name AS categoryName
     FROM expenses e
-    LEFT JOIN categories c ON e.categoryId = c.id
-    ORDER BY e.date DESC
+    JOIN categories c ON e.categoryId = c.id
+    ORDER BY e.date DESC;
   ''');
-
-  // Debug: Check for expenses with 'unknown' category names
-  for (var expense in result) {
-    if (expense['categoryName'] == null) {
-      print('Expense with no matching category: $expense');
-    }
-  }
-
   return result;
 }
+
+
+
 
 }

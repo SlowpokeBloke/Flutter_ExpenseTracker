@@ -27,33 +27,36 @@ class _MyExpensesWidgetState extends State<MyExpensesWidget> {
     });
   }
 
-  // Builds the UI elements for the screen.
+  Future<void> _deleteExpense(int id) async {
+    await DatabaseHelper().deleteExpense(id);
+    _fetchExpenses(); // Refresh the list after deleting the expense
+  }
+
+
+    // Builds the UI elements for the screen.
   @override
   Widget build(BuildContext context) {
-    // Scaffold provides the structure for the screen.
     return Scaffold(
       appBar: AppBar(
-        title: Text('Expense View'), // Title for the AppBar.
+        title: Text('Expense View'),
       ),
-      // ListView.builder creates a scrollable list of widgets that are built on demand.
       body: ListView.builder(
-        itemCount: _expenses.length, // The number of items the list will contain.
+        itemCount: _expenses.length,
         itemBuilder: (context, index) {
-          // Defines how each expense is represented in the list.
-          final expense = _expenses[index]; // Current expense item.
+          final expense = _expenses[index];
           return ListTile(
-            // ListTile is a single fixed-height row that typically contains some text as well as a leading or trailing icon.
             title: Text('${expense['categoryName'] ?? 'Unknown Category'}: \$${expense['amount']}'),
-            trailing: Text(expense['date']), // Trailing widget in the tile, typically an icon or text.
+            subtitle: Text('Date: ${expense['date']}'),
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () => _deleteExpense(expense['id']),
+            ),
           );
         },
       ),
-      // Floating action button to refresh the expenses list.
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _fetchExpenses(); // Calls _fetchExpenses() to refresh the list when the button is pressed.
-        },
-        child: Icon(Icons.refresh), // Icon for the button.
+        onPressed: _fetchExpenses,
+        child: Icon(Icons.refresh),
       ),
     );
   }
