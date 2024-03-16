@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         '/budget_goal': (context) => BudgetGoal(),
         '/categories': (context) => CategoriesScreen(),
         '/expense_entry': (context) => ExpenseEntry(),
-        '/expense_view': (context) => ExpenseView(),
+        '/expense_view': (context) => MyExpensesWidget(),
         '/profile': (context) => Profile(),
         '/visual_report': (context) => VisualReport(),
       },

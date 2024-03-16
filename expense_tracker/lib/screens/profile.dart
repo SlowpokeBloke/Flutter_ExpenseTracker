@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -6,13 +7,30 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  String _userName = "User Name"; 
+  String _userName = "User Name";
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserName();
+  }
+
+  Future<void> _loadUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userName = prefs.getString('userName') ?? "User Name";
+    });
+  }
+
+  Future<void> _saveUserName(String userName) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userName', userName);
+  }
 
   void _changeUserName() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-
         String newName = "";
         return AlertDialog(
           title: Text("Change Name"),
@@ -31,7 +49,8 @@ class _ProfileState extends State<Profile> {
             ),
             TextButton(
               child: Text("Save"),
-              onPressed: () {
+              onPressed: () async {
+                await _saveUserName(newName);
                 setState(() {
                   _userName = newName;
                 });

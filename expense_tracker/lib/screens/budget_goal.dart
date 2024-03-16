@@ -19,7 +19,7 @@ class _BudgetGoalState extends State<BudgetGoal> {
     _categories = await DatabaseHelper().getCategoryMapList(); // Assumes this fetches budget info as well
     setState(() {}); // Update the state to reflect new data
   }
-
+ // Bulds the UI elements for the screen.
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,3 +1,5 @@
+//inside of database_helper.dart
+
 import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -36,6 +38,7 @@ class DatabaseHelper {
   }
 
   void _createDb(Database db, int newVersion) async {
+    
     // Create categories table
     await db.execute('''
       CREATE TABLE $categoriesTable (
@@ -90,29 +93,55 @@ class DatabaseHelper {
 
   Future<int> insertExpense(Map<String, dynamic> expenseMap) async {
     Database db = await this.database;
-    return await db.insert(expensesTable, expenseMap);
+    int result = await db.insert(expensesTable, expenseMap);
+    print("Inserted expense ID: $result");
+    return result;
   }
+
 
   Future<int> updateCategoryBudget(int categoryId, int budget) async {
     Database db = await database;
     return await db.update(categoriesTable, {colBudget: budget}, where: '$colId = ?', whereArgs: [categoryId]);
   }
 
+// These lines should be removed from DatabaseHelper
+  Future<List<Map<String, dynamic>>> loadExpensesDirectly() async {
+    final db = await DatabaseHelper().database;
+    final List<Map<String, dynamic>> result = await db.rawQuery('SELECT * FROM $expensesTable');
+    print("Direct SQL expenses: $result");
+    return result; // Return the fetched results for use in a widget's state
+  }
+
+
+
+
   Future<List<Map<String, dynamic>>> getCategoryMapList() async {
     Database db = await database;
     return await db.query(categoriesTable);
   }
 
-  // Method to fetch expenses joined with categories
-  Future<List<Map<String, dynamic>>> getExpenses() async {
-    final db = await this.database;
-    final List<Map<String, dynamic>> result = await db.rawQuery('''
-      SELECT e.amount, e.description, e.date, c.name AS categoryName
-      FROM expenses e
-      JOIN categories c ON e.categoryId = c.id
-      ORDER BY e.date DESC
-    ''');
-    return result;
+// Method to fetch expenses joined with categories
+Future<List<Map<String, dynamic>>> getExpenses() async {
+  final db = await this.database;
+  // Debug: Fetch all categories to log their IDs
+  final categories = await db.query(categoriesTable);
+  print("All categories: $categories");
+
+  final List<Map<String, dynamic>> result = await db.rawQuery('''
+    SELECT e.amount, e.date, c.name AS categoryName
+    FROM expenses e
+    LEFT JOIN categories c ON e.categoryId = c.id
+    ORDER BY e.date DESC
+  ''');
+
+  // Debug: Check for expenses with 'unknown' category names
+  for (var expense in result) {
+    if (expense['categoryName'] == null) {
+      print('Expense with no matching category: $expense');
+    }
   }
+
+  return result;
+}
 
 }
