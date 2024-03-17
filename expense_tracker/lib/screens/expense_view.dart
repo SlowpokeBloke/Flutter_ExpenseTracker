@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:expense_tracker/helpers/database_helper.dart';
 
 // MyExpensesWidget is a stateful widget that displays a list of expenses.
@@ -11,28 +12,27 @@ class MyExpensesWidget extends StatefulWidget {
 
 // _MyExpensesWidgetState holds the state for MyExpensesWidget.
 class _MyExpensesWidgetState extends State<MyExpensesWidget> {
-  List<Map<String, dynamic>> _expenses = []; // This list will hold the expenses data.
+  List<Map<String, dynamic>> _expenses = []; 
 
-  // initState() is called once when the widget is inserted into the widget tree.
   @override
   void initState() {
     super.initState();
-    _fetchExpenses(); // Fetch expenses from the database on initialization.
+    _fetchExpenses(); 
   }
 
 // Fetches expenses from the database and updates the UI.
 Future<void> _fetchExpenses() async {
-  var dbHelper = DatabaseHelper(); // Instance of database helper to interact with the database.
-  var expenses = await dbHelper.getExpensesWithCategoryName(); // Fetch expenses with category names.
+  var dbHelper = DatabaseHelper(); 
+  var expenses = await dbHelper.getExpensesWithCategoryName(); 
   setState(() {
-    _expenses = expenses; // Update the state with the fetched expenses.
+    _expenses = expenses; 
   });
 }
 
 
   Future<void> _deleteExpense(int id) async {
     await DatabaseHelper().deleteExpense(id);
-    _fetchExpenses(); // Refresh the list after deleting the expense
+    _fetchExpenses(); 
   }
 
 
@@ -47,9 +47,11 @@ Future<void> _fetchExpenses() async {
         itemCount: _expenses.length,
         itemBuilder: (context, index) {
           final expense = _expenses[index];
+          final DateTime dateTime = DateTime.parse(expense['date']);
+          final String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
           return ListTile(
             title: Text('${expense['categoryName'] ?? 'Unknown Category'}: \$${expense['amount']}'),
-            subtitle: Text('Date: ${expense['date']}'),
+            subtitle: Text('Date: $formattedDate'), // Use the formatted date here
             trailing: IconButton(
               icon: Icon(Icons.delete),
               onPressed: () => _deleteExpense(expense['id']),
@@ -57,6 +59,11 @@ Future<void> _fetchExpenses() async {
           );
         },
       ),
+
+      
+
+
+
       floatingActionButton: FloatingActionButton(
         onPressed: _fetchExpenses,
         child: Icon(Icons.refresh),
