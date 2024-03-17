@@ -138,4 +138,18 @@ class DatabaseHelper {
     return expenses;
   }
 
+  Future<List<Map<String, dynamic>>> getCategoriesWithTotalExpenses() async {
+  Database db = await this.database;
+  List<Map<String, dynamic>> categoriesWithExpenses = await db.rawQuery('''
+    SELECT c.$colId, c.$colName, c.$colBudget, IFNULL(SUM(e.$colAmount), 0) AS totalExpenses
+    FROM $categoriesTable c
+    LEFT JOIN $expensesTable e ON c.$colId = e.$colCategoryId
+    GROUP BY c.$colId
+  ''');
+
+  print("Categories with Total Expenses: $categoriesWithExpenses");
+  return categoriesWithExpenses;
+  } 
+
+
 }
