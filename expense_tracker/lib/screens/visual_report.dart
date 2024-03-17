@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:expense_tracker/helpers/database_helper.dart';
 
 class VisualReport extends StatefulWidget {
@@ -17,8 +18,44 @@ class _VisualReportState extends State<VisualReport> {
 
   Future<void> _fetchCategoriesData() async {
     _categoriesData = await DatabaseHelper().getCategoriesWithTotalExpenses();
-    setState(() {}); // Update the UI with fetched data
+    print("Fetched categories data: $_categoriesData"); // Debug print
+    setState(() {});
   }
+
+
+  Widget _buildPieChart() {
+    // First, we'll convert the categories data into a format suitable for the pie chart.
+    final List<Map<String, dynamic>> pieData = _categoriesData.map((category) {
+      return {
+        'name': category['name'],
+        'value': category['totalExpenses'], // This assumes 'totalExpenses' is already calculated.
+      };
+    }).toList();
+
+    List<charts.Series<Map<String, dynamic>, String>> seriesList = [
+      charts.Series<Map<String, dynamic>, String>(
+        id: 'Expenses',
+        domainFn: (Map<String, dynamic> row, _) => row['name'],
+        measureFn: (Map<String, dynamic> row, _) => row['value'],
+        data: pieData,
+        labelAccessorFn: (Map<String, dynamic> row, _) => '${row['name']}: \$${row['value']}',
+      ),
+    ];
+
+    return Container(
+      height: 300, // Adjust the size of the chart
+      child: charts.PieChart(
+        seriesList,
+        animate: true,
+        // Configure the aesthetics of the pie chart here.
+        defaultRenderer: charts.ArcRendererConfig(
+          arcRendererDecorators: [charts.ArcLabelDecorator()],
+        ),
+      ),
+    );
+  }
+
+
 
 
   @override
