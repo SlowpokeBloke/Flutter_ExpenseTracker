@@ -16,7 +16,7 @@ class _VisualReportState extends State<VisualReport> {
   }
 
   Future<void> _fetchCategoriesData() async {
-    _categoriesData = await DatabaseHelper().getCategoriesWithExpenses();
+    _categoriesData = await DatabaseHelper().getExpensesWithCategoryName();
     setState(() {}); // Update the UI with fetched data
   }
 
@@ -35,9 +35,10 @@ class _VisualReportState extends State<VisualReport> {
         itemCount: _categoriesData.length,
         itemBuilder: (context, index) {
           final category = _categoriesData[index];
-          final double budget = category['budget'];
-          final double expenses = category['expenses'];
-          final double percentage = expenses / budget;
+          final double budget = category['budget']?.toDouble() ?? 0.0;
+          final double expenses = category['expenses']?.toDouble() ?? 0.0;
+          final double percentage = (budget != 0) ? expenses / budget : 0.0;
+
 
           return Card(
             margin: EdgeInsets.all(8),
