@@ -31,16 +31,21 @@ class MyApp extends StatelessWidget {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            leading: IconButton(onPressed:() => {}, icon: const Icon(Icons.person),),  //onpressed: navigates to profile page
+            //leading: IconButton(onPressed:() => {}, icon: const Icon(Icons.person),),  //onpressed: navigates to profile page
+            leading: Builder(
+              builder: (BuildContext context) {
+                return IconButton(onPressed:() => {Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()))}, icon: const Icon(Icons.person),);
+              },
+            ),
             title: const Text('Expense Tracker'),
             centerTitle: true,
-            bottom: const TabBar( //consider swapping to bottom edge of screen
-              tabs: [
-                Tab(icon: Icon(Icons.home)),
-                Tab(icon: Icon(Icons.assignment_outlined)),
-                Tab(icon: Icon(Icons.insert_chart_outlined)),
-              ],
-            ),
+            // bottom: const TabBar( //consider swapping to bottom edge of screen
+            //   tabs: [
+            //     Tab(icon: Icon(Icons.home)),
+            //     Tab(icon: Icon(Icons.assignment_outlined)),
+            //     Tab(icon: Icon(Icons.insert_chart_outlined)),
+            //   ],
+            // ),
           ),
           body: const TabBarView(
             children: [
@@ -49,6 +54,15 @@ class MyApp extends StatelessWidget {
               Goals(),
               Reports(),
             ]
+          ),
+          bottomNavigationBar: const BottomAppBar(child:
+            TabBar( //consider swapping to bottom edge of screen
+              tabs: [
+                Tab(icon: Icon(Icons.home)),
+                Tab(icon: Icon(Icons.assignment_outlined)),
+                Tab(icon: Icon(Icons.insert_chart_outlined)),
+              ],
+            ),
           ),
         ),
       ),
