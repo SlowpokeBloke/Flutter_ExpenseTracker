@@ -18,14 +18,15 @@ class _MyExpensesWidgetState extends State<MyExpensesWidget> {
     _fetchExpenses(); // Fetch expenses from the database on initialization.
   }
 
-  // Fetches expenses from the database and updates the UI.
-  Future<void> _fetchExpenses() async {
-    var dbHelper = DatabaseHelper(); // Instance of database helper to interact with the database.
-    var expenses = await dbHelper.loadExpensesDirectly(); // Fetch expenses with direct SQL query.
-    setState(() {
-      _expenses = expenses; // Update the state with the fetched expenses.
-    });
-  }
+// Fetches expenses from the database and updates the UI.
+Future<void> _fetchExpenses() async {
+  var dbHelper = DatabaseHelper(); // Instance of database helper to interact with the database.
+  var expenses = await dbHelper.getExpensesWithCategoryName(); // Fetch expenses with category names.
+  setState(() {
+    _expenses = expenses; // Update the state with the fetched expenses.
+  });
+}
+
 
   Future<void> _deleteExpense(int id) async {
     await DatabaseHelper().deleteExpense(id);
