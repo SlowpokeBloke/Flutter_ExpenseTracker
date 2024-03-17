@@ -18,45 +18,31 @@ class _VisualReportState extends State<VisualReport> {
 
   Future<void> _fetchCategoriesData() async {
     _categoriesData = await DatabaseHelper().getCategoriesWithTotalExpenses();
-    print("Fetched categories data: $_categoriesData"); // Debug print
     setState(() {});
   }
 
-
   Widget _buildPieChart() {
-    // First, we'll convert the categories data into a format suitable for the pie chart.
-    final List<Map<String, dynamic>> pieData = _categoriesData.map((category) {
-      return {
-        'name': category['name'],
-        'value': category['totalExpenses'], // This assumes 'totalExpenses' is already calculated.
-      };
-    }).toList();
-
     List<charts.Series<Map<String, dynamic>, String>> seriesList = [
       charts.Series<Map<String, dynamic>, String>(
         id: 'Expenses',
-        domainFn: (Map<String, dynamic> row, _) => row['name'],
-        measureFn: (Map<String, dynamic> row, _) => row['value'],
-        data: pieData,
-        labelAccessorFn: (Map<String, dynamic> row, _) => '${row['name']}: \$${row['value']}',
+        domainFn: (Map<String, dynamic> category, _) => category['name'] ?? 'Unnamed',
+        measureFn: (Map<String, dynamic> category, _) => category['totalExpenses'].abs(),
+        data: _categoriesData,
+        labelAccessorFn: (Map<String, dynamic> row, _) => '${row['name']}: \$${row['totalExpenses']}',
       ),
     ];
 
     return Container(
       height: 300, // Adjust the size of the chart
-      child: charts.PieChart(
+      child: charts.PieChart<String>(
         seriesList,
         animate: true,
-        // Configure the aesthetics of the pie chart here.
         defaultRenderer: charts.ArcRendererConfig(
           arcRendererDecorators: [charts.ArcLabelDecorator()],
         ),
       ),
     );
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,39 +55,45 @@ class _VisualReportState extends State<VisualReport> {
         centerTitle: true,
         elevation: 2,
       ),
-      body: ListView.builder(
-        itemCount: _categoriesData.length,
-        itemBuilder: (context, index) {
-          final category = _categoriesData[index];
-          final double budget = (category['budget'] as int?)?.toDouble() ?? 0.0;
-          final double expenses = (category['totalExpenses'] as int?)?.toDouble() ?? 0.0;
-          final double percentage = (budget != 0) ? - expenses / budget : 0.0;
+      body: Column(
+        children: [
+          _buildPieChart(), // Include the pie chart here.
+          Expanded(
+            child: ListView.builder(
+              itemCount: _categoriesData.length,
+              itemBuilder: (context, index) {
+                final category = _categoriesData[index];
+                final double budget = (category['budget'] as int?)?.toDouble() ?? 0.0;
+                final double expenses = (category['totalExpenses'] as int?)?.toDouble() ?? 0.0;
+                final double percentage = budget != 0 ? expenses / budget : 0.0;
 
-          return Card(
-            margin: EdgeInsets.all(8),
-            child: ListTile(
-              title: Text(category['name'] ?? 'Unnamed Category'),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Budget: \$${budget.toStringAsFixed(2)}'),
-                  SizedBox(height: 8),
-                    LinearProgressIndicator(
-                      value: percentage.clamp(0.0, 1.0), 
-                      backgroundColor: Colors.grey[300],
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        percentage >= 1 ? Colors.red : Colors.green,
-                      ),
+                return Card(
+                  margin: EdgeInsets.all(8),
+                  child: ListTile(
+                    title: Text(category['name'] ?? 'Unnamed Category'),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Budget: \$${budget.toStringAsFixed(2)}'),
+                        SizedBox(height: 8),
+                        LinearProgressIndicator(
+                          value: percentage.clamp(0.0, 1.0),
+                          backgroundColor: Colors.grey[300],
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            percentage >= 1 ? Colors.red : Colors.green,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text('Expenses: \$${expenses.toStringAsFixed(2)}'),
+                      ],
                     ),
-                  SizedBox(height: 8),
-                  Text('Expenses: \$${expenses.toStringAsFixed(2)}'),
-                ],
-              ),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
-
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[200],
         shape: CircularNotchedRectangle(),
