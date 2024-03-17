@@ -28,9 +28,12 @@ class _ReportsState extends State<Reports>{
     // toChartMap();
     setState(() {}); // Refresh the UI with the categories loaded.
   }
-  // Future toChartMap() async {
-  //   chartMap = catExpMap.map((key, value) => MapEntry<String,double>(key, double.parse(value)));
-  // }
+  Map<String,double> toChartMap() {
+    Map<String,double> map = {};
+    _categorizedExpenses.forEach((iter) => map[iter['cat']]=double.parse(iter['amt']));
+    return map;
+    //chartMap = catExpMap.map((key, value) => MapEntry<String,double>(key, double.parse(value)));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +53,7 @@ class _ReportsState extends State<Reports>{
               'Cat3' : 32.15,
             }),
             // PieChart(
-            //   dataMap:
+            //   dataMap: toChartMap(),
             // ),
           ),
           //list of prog bars for each cat in goals?
