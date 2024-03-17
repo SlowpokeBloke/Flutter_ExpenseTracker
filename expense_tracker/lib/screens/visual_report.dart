@@ -16,9 +16,10 @@ class _VisualReportState extends State<VisualReport> {
   }
 
   Future<void> _fetchCategoriesData() async {
-    _categoriesData = await DatabaseHelper().getExpensesWithCategoryName();
+    _categoriesData = await DatabaseHelper().getCategoriesWithTotalExpenses();
     setState(() {}); // Update the UI with fetched data
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,35 +36,35 @@ class _VisualReportState extends State<VisualReport> {
         itemCount: _categoriesData.length,
         itemBuilder: (context, index) {
           final category = _categoriesData[index];
-          final double budget = category['budget']?.toDouble() ?? 0.0;
-          final double expenses = category['expenses']?.toDouble() ?? 0.0;
-          final double percentage = (budget != 0) ? expenses / budget : 0.0;
-
+          final double budget = (category['budget'] as int?)?.toDouble() ?? 0.0;
+          final double expenses = (category['totalExpenses'] as int?)?.toDouble() ?? 0.0;
+          final double percentage = (budget != 0) ? - expenses / budget : 0.0;
 
           return Card(
             margin: EdgeInsets.all(8),
             child: ListTile(
-              title: Text(category['name']),
+              title: Text(category['name'] ?? 'Unnamed Category'),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Budget: \$${category['budget']}'),
+                  Text('Budget: \$${budget.toStringAsFixed(2)}'),
                   SizedBox(height: 8),
-                  LinearProgressIndicator(
-                    value: percentage,
-                    backgroundColor: Colors.grey[300],
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      percentage > 1 ? Colors.red : Colors.green,
+                    LinearProgressIndicator(
+                      value: percentage.clamp(0.0, 1.0), 
+                      backgroundColor: Colors.grey[300],
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        percentage >= 1 ? Colors.red : Colors.green,
+                      ),
                     ),
-                  ),
                   SizedBox(height: 8),
-                  Text('Expenses: \$${category['expenses']}'),
+                  Text('Expenses: \$${expenses.toStringAsFixed(2)}'),
                 ],
               ),
             ),
           );
         },
       ),
+
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[200],
         shape: CircularNotchedRectangle(),
