@@ -10,52 +10,48 @@ class ExpenseEntry extends StatefulWidget {
 
 // The corresponding state class for ExpenseEntry.
 class _ExpenseEntryState extends State<ExpenseEntry> {
-  List<Map<String, dynamic>> _categories = []; // This will hold a list of categories from the database.
-  String? _selectedCategory; // This will hold the ID of the selected category.
-  final TextEditingController _amountController = TextEditingController(); // To capture the amount entered by the user.
+  List<Map<String, dynamic>> _categories = []; 
+  String? _selectedCategory; 
+  final TextEditingController _amountController = TextEditingController(); 
 
   // Called when this widget is inserted into the tree.
   @override
   void initState() {
     super.initState();
-    _loadCategories(); // Load the list of categories at startup.
+    _loadCategories(); 
   }
 
   // Loads categories from the database and updates the UI.
   Future<void> _loadCategories() async {
-    _categories = await DatabaseHelper().getCategoryMapList(); // Fetch the list of categories.
+    _categories = await DatabaseHelper().getCategoryMapList();
     if (_categories.isNotEmpty) {
-      _selectedCategory = _categories.first['id'].toString(); // Automatically select the first category.
+      _selectedCategory = _categories.first['id'].toString(); 
     }
-    setState(() {}); // Refresh the UI with the categories loaded.
+    setState(() {}); 
   }
 
   // Clled when the user submits their expense entry.
   void _submitExpense() async {
     if (_selectedCategory == null || _amountController.text.isEmpty) {
-      // Show an error if no category is selected or if the amount is not entered.
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please select a category and enter an amount')));
       return;
     }
-    final int categoryId = int.parse(_selectedCategory!); // Parse the selected category ID.
-    final int expenseAmount = int.tryParse(_amountController.text) ?? 0; // Parse the entered amount.
+    final int categoryId = int.parse(_selectedCategory!);
+    final int expenseAmount = int.tryParse(_amountController.text) ?? 0; 
 
     // Create a map to hold the expense data.
     Map<String, dynamic> expense = {
       'categoryId': categoryId,
-      'amount': -expenseAmount, // Store the amount as a negative value, representing an expense.
-      'description': 'Expense entry', // Here we simply use a default description. You could add a field for custom descriptions.
-      'date': DateTime.now().toIso8601String(), // Store the current date and time as an ISO8601 string.
+      'amount': -expenseAmount, 
+      'description': 'Expense entry', 
+      'date': DateTime.now().toIso8601String(), 
     };
 
     // Insert the new expense into the database.
     await DatabaseHelper().insertExpense(expense);
-
-    // Clear the form and show a confirmation message.
     _amountController.clear();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Expense added successfully')));
 
-    // No need to call _loadCategories unless you want to display updated budget information.
   }
 
   // Builds the UI for the ExpenseEntry widget.
