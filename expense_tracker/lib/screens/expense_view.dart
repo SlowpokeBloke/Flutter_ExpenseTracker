@@ -15,8 +15,6 @@ class ExpenseView extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         //display list of expenses (as cards?)
       ),
-      
-  
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/screens/forms/edit_categories.dart';
 import 'package:flutter/material.dart';
 import './expense_view.dart';
 import './forms/expense_entry.dart';
@@ -14,8 +15,7 @@ class HomeScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         centerTitle: true,
       ),
-      //need box with centered balance + income on left bottom, expense on right bottom
-      //expense preview list below as appbar, new expense in actions, list in flex space
+            //expense preview list below as appbar, new expense in actions, list in flex space
       body: Column( //encompasses all home content
         children: [
           //overview section
@@ -44,8 +44,22 @@ class HomeScreen extends StatelessWidget {
           //expense log section
           AppBar(
             //title: const Text('Expense Log'),
-            actions: [IconButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) =>   ExpenseForm()))}, tooltip: 'Add New Entry', icon: const Icon(Icons.add_box_rounded))],
-            flexibleSpace: ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseView()))}, child: const Text('View Full Log')), //display expense log list preview (limit to 3?); expand on tap (to expense log page?)
+            //actions: [IconButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) =>   ExpenseForm()))}, tooltip: 'Add New Entry', icon: const Icon(Icons.add_box_rounded))],
+            flexibleSpace: Column(
+              mainAxisSize: MainAxisSize.min,
+              children:[
+                Card(  //display expense log list preview (limit to 3?); expand on tap (to expense log page?)
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children:[
+                      ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseView()))}, child: const Text('View Expense Log')),
+                      ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryForm()))}, child: const Text('View Categories')),
+                    ]
+                  ),
+                ),
+                ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) =>   ExpenseForm()))}, child: const Text('Add New Entry'),)
+              ],
+            ),
           ),
         ],
       ),
