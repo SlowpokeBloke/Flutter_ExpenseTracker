@@ -43,9 +43,6 @@ class VisualReport extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/visual_report'); 
-                },
                 child: Container(
                   width: 60, 
                   height: 60, 

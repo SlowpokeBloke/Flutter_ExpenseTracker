@@ -69,9 +69,6 @@ class _BudgetGoalState extends State<BudgetGoal> {
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/budget_goal'); 
-                },
                 child: Container(
                   width: 60, 
                   height: 60, 

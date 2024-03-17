@@ -128,9 +128,6 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/profile'); 
-                },
                 child: Container(
                   width: 60, 
                   height: 60, 
