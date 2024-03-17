@@ -45,8 +45,6 @@ class HomeScreen extends StatelessWidget {
           ),
 
           SizedBox(height: 40), 
-          
-          
           Card( // Mid nav buttons
             elevation: 4.0,
             color: Colors.grey[200],
