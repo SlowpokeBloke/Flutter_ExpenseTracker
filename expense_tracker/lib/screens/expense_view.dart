@@ -57,11 +57,6 @@ Future<void> _fetchExpenses() async {
           );
         },
       ),
-
-      
-
-
-
       floatingActionButton: FloatingActionButton(
         onPressed: _fetchExpenses,
         child: Icon(Icons.refresh),
