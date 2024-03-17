@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:io';
+//import 'dart:js_interop_unsafe';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -138,4 +139,16 @@ class DatabaseHelper {
     return expenses;
   }
 
+  Future<List<Map<String, dynamic>>> getTotalExpensesByCategory() async{
+    Database db = await this.database;
+    List<Map<String, dynamic>> expTotals = await db.rawQuery('''
+      SELECT c.name AS cat, SUM(e.amount) AS amt
+      FROM $expensesTable e
+      JOIN $categoriesTable c ON e.$colCategoryId = c.$colId
+      GROUP BY c.$colId;
+    ''');
+    print("ExpTotals by Cat: $expTotals");
+
+    return expTotals;
+  }
 }

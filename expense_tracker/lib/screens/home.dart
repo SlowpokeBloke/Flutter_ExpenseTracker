@@ -1,4 +1,5 @@
-import 'package:expense_tracker/screens/forms/edit_categories.dart';
+//import 'package:expense_tracker/screens/expense_entry.dart';
+//import 'package:expense_tracker/screens/forms/edit_categories.dart';
 import 'categories.dart';
 import 'package:flutter/material.dart';
 import './expense_view.dart';
@@ -54,12 +55,13 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children:[
                       ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MyExpensesWidget()))}, child: const Text('View Expense Log')),
-                      ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryForm()))}, child: const Text('View Categories')),
-                      //ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => CategoriesScreen()))}, child: const Text('View Categories')),
+                      //ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryForm()))}, child: const Text('View Categories')),
+                      ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => CategoriesScreen()))}, child: const Text('View Categories')),
                     ]
                   ),
                 ),
-                ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) =>   ExpenseForm()))}, child: const Text('Add New Entry'),)
+                ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) =>   ExpenseForm()))}, child: const Text('Add New Entry'),),
+                //ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseEntry()))}, child: const Text('Add New Entry'),)
               ],
             ),
           ),

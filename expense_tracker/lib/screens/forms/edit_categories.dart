@@ -35,7 +35,6 @@ class NewCategoryState extends State<NewCategory> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             FormBuilderTextField(
-              //key: field specific key
               name: 'name',
               decoration: const InputDecoration(labelText: 'Name'),
               validator: FormBuilderValidators.compose([FormBuilderValidators.required()]),

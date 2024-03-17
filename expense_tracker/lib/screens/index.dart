@@ -4,3 +4,4 @@ export 'reports.dart';
 export 'profile.dart';
 
 export 'budget_goal.dart';
+export 'expense_entry.dart';
