@@ -1,6 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:expense_tracker/helpers/database_helper.dart';
 
-class VisualReport extends StatelessWidget {
+class VisualReport extends StatefulWidget {
+  @override
+  _VisualReportState createState() => _VisualReportState();
+}
+
+class _VisualReportState extends State<VisualReport> {
+  List<Map<String, dynamic>> _categoriesData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCategoriesData();
+  }
+
+  Future<void> _fetchCategoriesData() async {
+    _categoriesData = await DatabaseHelper().getCategoriesWithExpenses();
+    setState(() {}); // Update the UI with fetched data
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,8 +31,38 @@ class VisualReport extends StatelessWidget {
         centerTitle: true,
         elevation: 2,
       ),
+      body: ListView.builder(
+        itemCount: _categoriesData.length,
+        itemBuilder: (context, index) {
+          final category = _categoriesData[index];
+          final double budget = category['budget'];
+          final double expenses = category['expenses'];
+          final double percentage = expenses / budget;
 
-      
+          return Card(
+            margin: EdgeInsets.all(8),
+            child: ListTile(
+              title: Text(category['name']),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Budget: \$${category['budget']}'),
+                  SizedBox(height: 8),
+                  LinearProgressIndicator(
+                    value: percentage,
+                    backgroundColor: Colors.grey[300],
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      percentage > 1 ? Colors.red : Colors.green,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text('Expenses: \$${category['expenses']}'),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[200],
         shape: CircularNotchedRectangle(),
@@ -24,39 +73,39 @@ class VisualReport extends StatelessWidget {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/home'); 
+                  Navigator.pushNamed(context, '/home');
                 },
                 child: Container(
-                  width: 60, 
-                  height: 60, 
-                  child: Image.asset('assets/homeIcon.png'), 
+                  width: 60,
+                  height: 60,
+                  child: Image.asset('assets/homeIcon.png'),
                 ),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/budget_goal'); 
+                  Navigator.pushNamed(context, '/budget_goal');
                 },
                 child: Container(
-                  width: 60, 
-                  height: 60, 
-                  child: Image.asset('assets/goalIcon.png'), 
+                  width: 60,
+                  height: 60,
+                  child: Image.asset('assets/goalIcon.png'),
                 ),
               ),
               GestureDetector(
                 child: Container(
-                  width: 60, 
-                  height: 60, 
-                  child: Image.asset('assets/reportIcon.png'), 
+                  width: 60,
+                  height: 60,
+                  child: Image.asset('assets/reportIcon.png'),
                 ),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/profile'); 
+                  Navigator.pushNamed(context, '/profile');
                 },
                 child: Container(
-                  width: 60, 
-                  height: 60, 
-                  child: Image.asset('assets/profileIcon.png'), 
+                  width: 60,
+                  height: 60,
+                  child: Image.asset('assets/profileIcon.png'),
                 ),
               ),
             ],
