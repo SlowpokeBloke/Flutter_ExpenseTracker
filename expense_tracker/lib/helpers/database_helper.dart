@@ -126,18 +126,16 @@ class DatabaseHelper {
   }
 
   // Method to fetch expenses joined with categories
-Future<List<Map<String, dynamic>>> getExpenses() async {
-  final db = await this.database;
-  final List<Map<String, dynamic>> result = await db.rawQuery('''
-    SELECT e.id, e.amount, e.date, c.name AS categoryName
-    FROM expenses e
-    JOIN categories c ON e.categoryId = c.id
-    ORDER BY e.date DESC;
-  ''');
-  return result;
-}
-
-
-
+  Future<List<Map<String, dynamic>>> getExpensesWithCategoryName() async {
+    Database db = await this.database;
+    List<Map<String, dynamic>> expenses = await db.rawQuery('''
+      SELECT e.id, e.amount, e.date, c.name AS categoryName
+      FROM $expensesTable e
+      JOIN $categoriesTable c ON e.$colCategoryId = c.$colId
+      ORDER BY e.$colDate DESC;
+    ''');
+    print("Expenses with Category Names: $expenses");
+    return expenses;
+  }
 
 }
