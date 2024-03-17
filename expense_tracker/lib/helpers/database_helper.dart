@@ -1,5 +1,3 @@
-//inside of database_helper.dart
-
 import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -75,18 +73,7 @@ class DatabaseHelper {
     }
     // Add more version checks and updates as needed
   }
-
-  void _createUserProfileTable(Database db) async {
-  await db.execute('''
-    CREATE TABLE user_profile (
-      id INTEGER PRIMARY KEY,
-      name TEXT,
-      monthly_income INTEGER
-    )
-  ''');
   
-  await db.insert('user_profile', {'id': 1, 'name': 'User Name', 'monthly_income': 0});
-  }
 
   Future<int> insertCategory(String name, int initialBudget) async {
     Database db = await this.database;
@@ -162,20 +149,6 @@ class DatabaseHelper {
   print("Categories with Total Expenses: $categoriesWithExpenses");
   return categoriesWithExpenses;
   } 
-
-  Future<Map<String, dynamic>> getUserProfile() async {
-  Database db = await this.database;
-  var result = await db.query('user_profile');
-  if (result.isNotEmpty) {
-    return result.first;
-  }
-  return {};
-  }
-
-  Future<int> updateUserProfile(String name, int monthlyIncome) async {
-    Database db = await this.database;
-    return await db.update('user_profile', {'name': name, 'monthly_income': monthlyIncome}, where: 'id = ?', whereArgs: [1]);
-  }
 
 
 }
