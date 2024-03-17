@@ -6,7 +6,7 @@ class CategoryForm extends StatelessWidget {
   const CategoryForm({super.key});
   @override
     Widget build(BuildContext context) {
-      const appTitle = 'Add New Expense';
+      const appTitle = 'View/Modify Categories';
       return Scaffold(
           appBar: AppBar(
             title: const Text(appTitle),
@@ -25,11 +25,6 @@ class NewCategory extends StatefulWidget {
 // Create a corresponding State class.
 // This class holds data related to the form.
 class NewCategoryState extends State<NewCategory> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<NewCategoryState>.
   final _formKey = GlobalKey<FormBuilderState>();
   @override
     Widget build(BuildContext context) {

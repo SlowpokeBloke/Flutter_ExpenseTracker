@@ -3,6 +3,7 @@ import 'package:expense_tracker/helpers/database_helper.dart';
 
 // This widget allows the user to record a new expense.
 class ExpenseEntry extends StatefulWidget {
+  const ExpenseEntry({super.key});
   @override
   _ExpenseEntryState createState() => _ExpenseEntryState();
 }

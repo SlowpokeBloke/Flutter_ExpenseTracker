@@ -3,6 +3,8 @@ import 'package:expense_tracker/helpers/database_helper.dart';
 
 // MyExpensesWidget is a stateful widget that displays a list of expenses.
 class MyExpensesWidget extends StatefulWidget {
+  const MyExpensesWidget({super.key});
+  
   @override
   _MyExpensesWidgetState createState() => _MyExpensesWidgetState();
 }

@@ -51,7 +51,8 @@ class MyApp extends StatelessWidget {
             children: [
               //link to Home, Budget, Charts
               HomeScreen(),
-              Goals(),
+              //Goals(),
+              BudgetGoal(),
               Reports(),
             ]
           ),
