@@ -1,3 +1,4 @@
+import 'package:expense_tracker/helpers/database_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -98,6 +99,18 @@ class _ProfileState extends State<Profile> {
               onPressed: _changeProfileInfo,
               child: Text('Edit Profile'),
             ),
+            
+// Expense clear button for debuging db issue 
+
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     await DatabaseHelper().clearAllExpenses();
+            //     print("All expenses cleared");
+            //   },
+            //   child: Text("Clear All Expenses"),
+            // )
+
+            
           ],
         ),
       ),
