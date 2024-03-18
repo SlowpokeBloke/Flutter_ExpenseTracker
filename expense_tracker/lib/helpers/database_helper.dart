@@ -57,23 +57,22 @@ class DatabaseHelper {
     ''');
   }
 
-  // Handle database upgrades
-  void _upgradeDb(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 2) {
-
-      await db.execute('''
-        CREATE TABLE $expensesTable (
-          $colId INTEGER PRIMARY KEY AUTOINCREMENT,
-          $colAmount INTEGER,
-          $colCategoryId INTEGER,
-          $colDescription TEXT,
-          $colDate TEXT,
-          FOREIGN KEY ($colCategoryId) REFERENCES $categoriesTable($colId))
-      ''');
-    }
-    // Add more version checks and updates as needed
+// Handles database upgrades when app version changes and requires a database schema change.
+void _upgradeDb(Database db, int oldVersion, int newVersion) async {
+  // Compares old db and new db and proform a validation check 
+  if (oldVersion < 2) {
+    // If the database is from an older version that didn't have the expensesTable,
+    await db.execute('''
+      CREATE TABLE $expensesTable (
+        $colId INTEGER PRIMARY KEY AUTOINCREMENT, // Unique ID for each expense
+        $colAmount INTEGER, // The amount of the expense
+        $colCategoryId INTEGER, // Category ID this expense belongs to
+        $colDescription TEXT, // Description of the expense
+        $colDate TEXT, // Date of the expense
+        FOREIGN KEY ($colCategoryId) REFERENCES $categoriesTable($colId)) // Ensures referential integrity
+    ''');
   }
-  
+}
 
   Future<int> insertCategory(String name, int initialBudget) async {
     Database db = await this.database;
@@ -115,8 +114,6 @@ class DatabaseHelper {
     print("Direct SQL expenses: $result");
     return result; // Return the fetched results for use in a widget's state
   }
-
-
 
 
   Future<List<Map<String, dynamic>>> getCategoryMapList() async {
