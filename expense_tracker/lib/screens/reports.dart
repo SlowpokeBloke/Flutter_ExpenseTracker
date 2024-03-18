@@ -20,7 +20,7 @@ class _ReportsState extends State<Reports>{
 
   // Loads categories from the database and updates the UI.
   Future<void> _loadCategorizedExpenses() async {
-    _categorizedExpenses = await DatabaseHelper().getTotalExpensesByCategory(); // Fetch the list of categories.
+    //_categorizedExpenses = await DatabaseHelper().getTotalExpensesByCategory(); // Fetch the list of categories.
     //tmp.forEach((element) {chartMap.addAll(element));};
 
    // print('Data: $catExpMap');
