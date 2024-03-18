@@ -65,7 +65,7 @@ class _VisualReportState extends State<VisualReport> {
                 final category = _categoriesData[index];
                 final double budget = (category['budget'] as int?)?.toDouble() ?? 0.0;
                 final double expenses = (category['totalExpenses'] as int?)?.toDouble() ?? 0.0;
-                final double percentage = budget != 0 ? expenses / budget : 0.0;
+                final double percentage = budget != 0 ? - expenses / budget : 0.0;
 
                 return Card(
                   margin: EdgeInsets.all(8),
