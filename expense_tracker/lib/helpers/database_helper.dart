@@ -138,6 +138,12 @@ class DatabaseHelper {
     return expenses;
   }
 
+  Future<void> clearAllExpenses() async {
+  Database db = await this.database;
+  await db.delete(expensesTable); // This deletes all rows in the expensesTable
+  }
+
+
   Future<List<Map<String, dynamic>>> getCategoriesWithTotalExpenses() async {
   Database db = await this.database;
   List<Map<String, dynamic>> categoriesWithExpenses = await db.rawQuery('''
@@ -150,6 +156,17 @@ class DatabaseHelper {
   print("Categories with Total Expenses: $categoriesWithExpenses");
   return categoriesWithExpenses;
   } 
+
+  Future<int> getTotalExpenses() async {
+    Database db = await this.database;
+    final List<Map<String, dynamic>> result = await db.rawQuery(
+      'SELECT SUM($colAmount) as Total FROM $expensesTable'
+    );
+    print("Raw total expenses data: $result"); // Debugging line
+    int total = result.first["Total"]?.abs() ?? 0;
+    print("Calculated total expenses: $total"); // Debugging line
+    return total;
+  }
 
 
 }
