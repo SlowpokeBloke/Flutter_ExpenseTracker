@@ -56,12 +56,24 @@ class MyApp extends StatelessWidget {
               VisualReport(),
             ]
           ),
-          bottomNavigationBar: const BottomAppBar(child:
+          bottomNavigationBar: BottomAppBar(child:
             TabBar( //consider swapping to bottom edge of screen
               tabs: [
-                Tab(icon: Icon(Icons.home)),
-                Tab(icon: Icon(Icons.assignment_outlined)),
-                Tab(icon: Icon(Icons.insert_chart_outlined)),
+                Tab(child: Container(
+                          width: 80,
+                          height: 80,
+                          child: Image.asset('assets/homeIcon.png'),
+                        ),),
+                Tab(child: Container(
+                          width: 80,
+                          height: 80,
+                          child: Image.asset('assets/goalIcon.png'),
+                        ),),
+                Tab(child: Container(
+                          width: 80,
+                          height: 80,
+                          child: Image.asset('assets/reportIcon.png'),
+                        ),),
               ],
             ),
           ),
