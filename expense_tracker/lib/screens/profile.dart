@@ -153,13 +153,13 @@ class _ProfileState extends State<Profile> {
                   child: Image.asset('assets/reportIcon.png'), 
                 ),
               ),
-              GestureDetector(
-                child: Container(
-                  width: 60, 
-                  height: 60, 
-                  child: Image.asset('assets/profileIcon.png'), 
-                ),
-              ),
+              // GestureDetector(
+              //   child: Container(
+              //     width: 60, 
+              //     height: 60, 
+              //     child: Image.asset('assets/profileIcon.png'), 
+              //   ),
+              // ),
             ],
           ),
         ),
