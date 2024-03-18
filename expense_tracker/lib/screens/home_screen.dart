@@ -14,12 +14,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _loadFinancialInfo(); // Only call this once here.
+    _loadFinancialInfo(); 
   }
-
-
-  
-
 
   Future<void> _loadFinancialInfo() async {
     final prefs = await SharedPreferences.getInstance();
@@ -31,12 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-
-
   Future<void> deleteExpense(int expenseId) async {
     final dbHelper = DatabaseHelper();
     await dbHelper.deleteExpense(expenseId);
-    refreshExpenses(); // Assuming this HomeScreen has a direct or indirect way to trigger refreshes in MyExpensesWidget.
+    refreshExpenses(); 
   }
 
 
@@ -44,11 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final dbHelper = DatabaseHelper();
   int totalExpenses = await dbHelper.getTotalExpenses();
   setState(() {
-      _totalExpenses = totalExpenses.abs(); // Use .abs() to convert to positive
+      _totalExpenses = totalExpenses.abs(); 
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
