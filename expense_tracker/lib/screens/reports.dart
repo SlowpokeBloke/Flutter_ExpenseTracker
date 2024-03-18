@@ -21,21 +21,25 @@ class _ReportsState extends State<Reports>{
   // Loads categories from the database and updates the UI.
   Future<void> _loadCategorizedExpenses() async {
     _categorizedExpenses = await DatabaseHelper().getTotalExpensesByCategory(); // Fetch the list of categories.
-    for (var iter in _categorizedExpenses) {
-      catExpMap.addAll(iter);
-    }
-    print('Data: $catExpMap');
+    //tmp.forEach((element) {chartMap.addAll(element));};
+
+   // print('Data: $catExpMap');
     // toChartMap();
     setState(() {}); // Refresh the UI with the categories loaded.
   }
   Map<String,double> toChartMap() {
     Map<String,double> map = {};
-    _categorizedExpenses.forEach((iter) => map[iter['cat']]=double.parse(iter['amt']));
+    //_categorizedExpenses.forEach((iter) => map[iter['cat']]=double.parse(iter['amt']));
+   // _categorizedExpenses.forEach((element) {map.addEntries(element['cat']);map.addEntries(element['amt']);});
+    // return map;
+    // //chartMap = catExpMap.map((key, value) => MapEntry<String,double>(key, double.parse(value)));
+    //Map<String, double> map = Map.fromIterable(_categorizedExpenses, key: (iter) => iter.cat, value:(iter) => double.parse(iter.amt));
+    //Map<String, double> map = {'cat1':30.1,'cat2':123.34};
     return map;
-    //chartMap = catExpMap.map((key, value) => MapEntry<String,double>(key, double.parse(value)));
   }
   @override
   Widget build(BuildContext context) {
+    var map = toChartMap();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reports'),
@@ -53,7 +57,7 @@ class _ReportsState extends State<Reports>{
               'Cat3' : 32.15,
             }),
             // PieChart(
-            //   dataMap: toChartMap(),
+            //   dataMap: map,
             // ),
           ),
           //list of prog bars for each cat in goals?
