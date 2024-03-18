@@ -18,15 +18,15 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: HomeScreen(),
-      // routes: {
-      //   '/home': (context) => HomeScreen(),
-      //   '/budget_goal': (context) => BudgetGoal(),
-      //   '/categories': (context) => Categories(),
-      //   '/expense_entry': (context) => ExpenseEntry(),
-      //   '/expense_view': (context) => ExpenseView(),
-      //   '/profile': (context) => Profile(),
-      //   '/visual_report': (context) => VisualReport(),
-      // },
+      routes: {
+        '/home': (context) => HomeScreen(),
+        '/budget_goal': (context) => BudgetGoal(),
+        '/categories': (context) => CategoriesScreen(),
+        '/expense_entry': (context) => ExpenseEntry(),
+        '/expense_view': (context) => MyExpensesWidget(),
+        '/profile': (context) => Profile(),
+        '/visual_report': (context) => VisualReport(),
+      },
       home:DefaultTabController(
         length: 3,
         child: Scaffold(
