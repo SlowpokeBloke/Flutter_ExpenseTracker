@@ -47,13 +47,13 @@ class MyApp extends StatelessWidget {
             //   ],
             // ),
           ),
-          body: const TabBarView(
+          body: TabBarView(
             children: [
               //link to Home, Budget, Charts
-              HomeScreen(),
+              Home(),
               //Goals(),
               BudgetGoal(),
-              Reports(),
+              VisualReport(),
             ]
           ),
           bottomNavigationBar: const BottomAppBar(child:
