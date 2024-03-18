@@ -1,42 +1,99 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:expense_tracker/helpers/database_helper.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _monthlyIncome = 0;
+  int _totalExpenses = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFinancialInfo(); // Only call this once here.
+  }
+
+
+  
+
+
+  Future<void> _loadFinancialInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dbHelper = DatabaseHelper();
+    int totalExpenses = await dbHelper.getTotalExpenses();
+    setState(() {
+      _monthlyIncome = prefs.getInt('monthlyIncome') ?? 0;
+      _totalExpenses = totalExpenses;
+    });
+  }
+
+
+
+  Future<void> deleteExpense(int expenseId) async {
+    final dbHelper = DatabaseHelper();
+    await dbHelper.deleteExpense(expenseId);
+    refreshExpenses(); // Assuming this HomeScreen has a direct or indirect way to trigger refreshes in MyExpensesWidget.
+  }
+
+
+  Future<void> refreshExpenses() async {
+  final dbHelper = DatabaseHelper();
+  int totalExpenses = await dbHelper.getTotalExpenses();
+  setState(() {
+      _totalExpenses = totalExpenses.abs(); // Use .abs() to convert to positive
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
+    int displayExpenses = _totalExpenses.abs(); // Ensure positive display
+    int remainingBalance = _monthlyIncome - displayExpenses;
+    print("Remaining balance: $remainingBalance, Total expenses: $_totalExpenses");
+
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('Home'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        centerTitle: true,
-        elevation: 2,
+        // ... other AppBar properties
       ),
-      body: ListView( 
+      body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          
-          Card( // Place holder card will be heavly adjust or completely replace
+          Card(
+            // Adjusted card to display the financial information
             elevation: 4.0,
             color: Colors.grey[200],
-            child: const Padding(
-              padding: EdgeInsets.all(16.0), // Adjust padding for balance card
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Monthly Balance',
+                    'Monthly Income',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    '\$ 1100',
+                    '\$$_monthlyIncome',
                     style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('+ 3000.00', style: TextStyle(color: Colors.green)),
-                      Text('- 1900', style: TextStyle(color: Colors.red)),
+                      Text(
+                        '+ \$${remainingBalance.toString()}',
+                        style: TextStyle(color: Colors.green),
+                      ),
+                      Text(
+                        '\$$_totalExpenses',
+                        style: TextStyle(color: Colors.red),
+                      ),
                     ],
                   ),
                 ],
@@ -92,13 +149,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-         
-
-
-
-
-
-
         ],
       ),
 
