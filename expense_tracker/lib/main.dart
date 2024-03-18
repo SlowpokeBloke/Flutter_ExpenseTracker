@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           body: TabBarView(
             children: [
               //link to Home, Budget, Charts
-              Home(),
+              HomeScreen(),
               //Goals(),
               BudgetGoal(),
               VisualReport(),
